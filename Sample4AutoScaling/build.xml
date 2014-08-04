@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="TrackTrace" default="build">
+    
+    <!-- Set properties  -->
+	<property name="srcdir" value="${basedir}/src" />
+	<property name="destdir" value="${basedir}/Deploy" />
+	<property name="webdir" value="${basedir}/WebContent" />
+	<property name="destdir.output" value="${destdir}/output" />
+	<property name="compilelog" value="${destdir}/compile.xml" />
+	
+	<echo>version=${ant.version}</echo>
+	<echo message="basedir=${basedir}" />
+		
+	<path id="classpath">
+		<fileset dir="${webdir}/WEB-INF/lib/">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+	
+		
+	<target name="pre.build" description="Copy related config files to the output folder" >
+	<copy toDir="${destdir.output}">
+			<fileset dir="${webdir}">
+				<exclude name="**/classes/**" />
+			</fileset>
+		</copy>
+
+		<!-- Get 3rd party jars that need to be in the war. -->
+		<copy toDir="${destdir.output}/WEB-INF/lib">
+			<fileset dir="${webdir}/WEB-INF/lib/">
+			    <include name="*.jar" />
+		    </fileset>
+		</copy>
+    
+		<copy toDir="${destdir.output}/WEB-INF/classes">
+			<fileset dir="${srcdir}">
+				<include name="META-INF/*.xml" />
+			</fileset>
+		</copy>
+		</target>
+		
+	<target name="compile" description="Compile the source code to .class">
+		<!-- Set properties -->
+		<property name="build.debuglevel" value="lines,vars,source" />
+
+		<echo level="info">Compile Java source code</echo>
+
+		<mkdir dir="${destdir.output}/WEB-INF/classes" />
+
+		<property name="classes.bin" value="${destdir.output}/WEB-INF/classes" />
+
+		<!-- Compile the classes -->
+		<javac includeantruntime="false" destdir="${classes.bin}" debug="on" nowarn="on" failonerror="true" target="1.6">
+			<classpath>
+				<path refid="classpath" />
+			</classpath>
+			<src path="${srcdir}" />
+		</javac>
+	</target>
+	
+	<target name="build" depends="pre.build,compile" description="Pack the related files into WAR" >
+		<echo level="info">Pack all the related material into one WAR</echo>
+			<zip basedir="${destdir.output}" destfile="${destdir}/Sample4AutoScaling.war" />
+			<delete dir="${destdir.output}" />
+	</target>
+
+	
+    
+</project>

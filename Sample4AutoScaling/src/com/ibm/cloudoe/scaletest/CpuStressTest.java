@@ -24,7 +24,7 @@ public class CpuStressTest extends HttpServlet {
     }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * When receives httprequest, it calculates the number of primes within 1000 and this consumes cpu utilization
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
@@ -56,16 +56,12 @@ public class CpuStressTest extends HttpServlet {
 	            ++count;
 	        }
 	    }
-	    // The candidate has been incremented once after the count reached n
 	    return candidate-1;
 	}
 	
 	private boolean isPrime(int n) {
 	    for(int i = 2; i < n; ++i) {
 	        if (n % i == 0) {
-	            // We are naive, but not stupid, if
-	            // the number has a divisor other
-	            // than 1 or itself, we return immediately.
 	            return false;
 	        }
 	    }
