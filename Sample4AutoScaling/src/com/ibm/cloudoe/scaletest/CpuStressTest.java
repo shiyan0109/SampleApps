@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
-@WebServlet("/CpuStressTest")
+@WebServlet("/")
 public class CpuStressTest extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     
@@ -34,7 +34,7 @@ public class CpuStressTest extends HttpServlet {
 		
 		nthPrime(1000);
 		writer.println("---------------------------------------------------------------------");
-		writer.println("CPU Stress Test");
+		writer.println("CPU Stress Test. Calculate the number of primes within 1000 for each single request");
 		writer.println("---------------------------------------------------------------------");		
 				
 		writer.close();
